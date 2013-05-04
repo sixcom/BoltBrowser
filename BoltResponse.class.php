@@ -2,11 +2,13 @@
 class BoltResponse
 {
 	protected 
-		$_raw_response = null,
-		$_meta         = null,
-		$_body         = null,
-    $_status_code  = null,
-		$_header       = null;  
+		$_raw_response   = null,
+		$_meta           = null,
+		$_body           = null,
+    $_status_code    = null,
+		$_header         = null,  
+    $_formatted_data = null;
+
 
 	public function __construct($raw_response, $meta)
 	{
@@ -30,11 +32,16 @@ class BoltResponse
     }
   }
 
+  public function getFormattedData()
+  {
+    return $this->_formatted_data;
+  }
+
 
 	protected function _init()
 	{
 		$header  = trim(substr($this->_raw_response, 0, $this->_meta['header_size']));
-		$this->_body    = substr($this->_raw_response, $this->_meta['header_size']);
+		$this->_body  = $this->_formatted_data  = substr($this->_raw_response, $this->_meta['header_size']);
 		$this->_header = http_parse_headers($header);
 	}
 }
