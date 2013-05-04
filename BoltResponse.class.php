@@ -5,6 +5,7 @@ class BoltResponse
 		$_raw_response = null,
 		$_meta         = null,
 		$_body         = null,
+    $_status_code  = null,
 		$_header       = null;  
 
 	public function __construct($raw_response, $meta)
@@ -15,27 +16,25 @@ class BoltResponse
 		$this->_init();
 	}
 
+  public function getStatusCode()
+  {
+    return $this->_meta['http_code'];
+  }
+
+  public function getSetCookie()
+  {
+    if (array_key_exists('Set-Cookie', $this->_header)) {
+      return (array) $this->_header['Set-Cookie'];
+    } else {
+      return array();
+    }
+  }
+
+
 	protected function _init()
 	{
 		$header  = trim(substr($this->_raw_response, 0, $this->_meta['header_size']));
-		$body    = substr($this->_raw_response, $this->_meta['header_size']);
-
-		$header = explode("\n", $header);
-
-		$this->_header = array();
-		foreach ($header as $hd) {
-			if (($pos = strpos($hd, ':')) !== false) {
-
-				$header_key = trim(substr($hd, 0, $pos));
-				if ($header_key == 'Set-Cookie') {
-					$this->_header[$header_key][] = trim(substr($hd, $pos + 1));
-				} else {
-					$this->_header[$header_key] = trim(substr($hd, $pos + 1));
-				}
-				
-			}
-		}
-
-		var_dump($this->_header);
+		$this->_body    = substr($this->_raw_response, $this->_meta['header_size']);
+		$this->_header = http_parse_headers($header);
 	}
 }

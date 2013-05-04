@@ -1,0 +1,3 @@
+install pecl_http:
+  1) sudo apt-get install libcurl4-openssl-dev
+  2) sudo pecl install pecl_http
