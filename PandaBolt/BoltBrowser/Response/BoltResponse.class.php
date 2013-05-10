@@ -1,4 +1,7 @@
 <?php 
+
+namespace PandaBolt\BoltBrowser\Response
+
 class BoltResponse
 {
 	protected 

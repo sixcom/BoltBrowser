@@ -1,4 +1,7 @@
 <?php
+
+namespace PandaBolt\BoltBrowser\Cookie
+
 class BoltFilePersistentCookieManager
 {
   protected 

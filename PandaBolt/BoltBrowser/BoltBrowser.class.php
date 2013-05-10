@@ -1,8 +1,11 @@
 <?php 
 
-require_once('BoltResponse.class.php');
-require_once('BoltFilePersistentCookieManager.class.php');
-require_once('BoltJSONPResponse.class.php');
+namespace PandaBolt\BoltBrowser
+
+use PandaBolt\BoltBrowser\Response\BoltResponse
+use PandaBolt\BoltBrowser\Response\BoltJSONPResponse
+use PandaBolt\BoltBrowser\Cookie\BoltFilePersistentCookieManager
+
 
 class BoltBrowser
 {
