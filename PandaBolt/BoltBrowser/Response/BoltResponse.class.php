@@ -1,6 +1,6 @@
 <?php 
 
-namespace PandaBolt\BoltBrowser\Response
+namespace PandaBolt\BoltBrowser\Response;
 
 class BoltResponse
 {

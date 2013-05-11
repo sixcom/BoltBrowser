@@ -1,8 +1,8 @@
 <?php 
 
-namespace PandaBolt\BoltBrowser\Response
+namespace PandaBolt\BoltBrowser\Response;
 
-use PandaBolt\BoltBrowser\Response\BoltResponse
+use PandaBolt\BoltBrowser\Response\BoltResponse;
 
 class BoltJSONPResponse extends BoltResponse 
 { 

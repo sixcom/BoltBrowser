@@ -1,11 +1,10 @@
 <?php 
 
-namespace PandaBolt\BoltBrowser
+namespace PandaBolt\BoltBrowser;
 
-use PandaBolt\BoltBrowser\Response\BoltResponse
-use PandaBolt\BoltBrowser\Response\BoltJSONPResponse
-use PandaBolt\BoltBrowser\Cookie\BoltFilePersistentCookieManager
-
+use PandaBolt\BoltBrowser\Response\BoltResponse;
+use PandaBolt\BoltBrowser\Response\BoltJSONPResponse;
+use PandaBolt\BoltBrowser\Cookie\BoltFilePersistentCookieManager;
 
 class BoltBrowser
 {
@@ -14,7 +13,7 @@ class BoltBrowser
     $_cookie_manager   = null,
 		$_host             = null,
 		$_ch               = null,
-    $_response_class   = 'BoltResponse';
+    $_response_class   = 'PandaBolt\BoltBrowser\Response\BoltResponse';
 
 	protected $_curl_options = array(
 		//CURLOPT_VERBOSE        => 1,
@@ -111,7 +110,7 @@ class BoltBrowser
 
 		$response_meta     = curl_getinfo($this->_ch);
 
-    $reflecion_class = new ReflectionClass($this->_response_class);
+    $reflecion_class = new \ReflectionClass($this->_response_class);
 		$response = $reflecion_class->newInstance($raw_response_data, $response_meta);
 
     if (

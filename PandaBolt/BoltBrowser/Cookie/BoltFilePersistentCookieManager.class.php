@@ -1,6 +1,6 @@
 <?php
 
-namespace PandaBolt\BoltBrowser\Cookie
+namespace PandaBolt\BoltBrowser\Cookie;
 
 class BoltFilePersistentCookieManager
 {
@@ -32,7 +32,7 @@ class BoltFilePersistentCookieManager
   {
     if (is_null($this->_cookie_string)) {
       if (is_file($this->_file_path)) {
-        $file = new SplFileObject($this->_file_path);
+        $file = new \SplFileObject($this->_file_path);
         $content = array();
         while (!$file->eof()) {
           $content[] = $file->fgets();
@@ -66,7 +66,7 @@ class BoltFilePersistentCookieManager
       $new_cookie_array[] = $cookie_var . '=' . $cookie_val;
     }
 
-    $file = new SplFileObject($this->_file_path, 'w');
+    $file = new \SplFileObject($this->_file_path, 'w');
     $file->fwrite(implode(';', $new_cookie_array));
     
     $this->_cookie_string = null;
