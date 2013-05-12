@@ -21,7 +21,7 @@ class BoltFilePersistentCookieManager
   {
     $cookie_string = $this->getCookieString();
     $cookie_array  = array(); 
-
+  
     parse_str(str_replace(';', '&', $cookie_string), $cookie_array);
 
     return $cookie_array;

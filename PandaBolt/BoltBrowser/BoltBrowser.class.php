@@ -75,6 +75,8 @@ class BoltBrowser
 	{
 		curl_setopt($this->_ch, CURLOPT_POST, 1);
 		curl_setopt($this->_ch, CURLOPT_POSTFIELDS,  http_build_query($data));
+
+    return $this->doRequest($url);
 	}
 
   public function download($url, $file_path)
@@ -118,6 +120,11 @@ class BoltBrowser
        && $this->_cookie_manager
      ) {
       $this->_cookie_manager->setCookieString($response->getSetCookie());
+    }
+
+    if ($this->_cookie_manager) {
+   
+      $response->loadCookies($this->_cookie_manager->getCookieArray());
     }
 
     return $response;

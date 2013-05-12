@@ -10,7 +10,9 @@ class BoltResponse
 		$_body           = null,
     $_status_code    = null,
 		$_header         = null,  
-    $_formatted_data = null;
+    $_formatted_data = null,
+    $_all_cookies    = array()
+  ;
 
 
 	public function __construct($raw_response, $meta)
@@ -20,6 +22,18 @@ class BoltResponse
 
 		$this->_init();
 	}
+
+  public function loadCookies(array $cookies)
+  {
+    $this->_all_cookies = $cookies;
+  }
+
+  public function getCookie($name)
+  {
+    if (array_key_exists($name, $this->_all_cookies)) {
+      return $this->_all_cookies[$name];
+    }
+  }
 
   public function getStatusCode()
   {
