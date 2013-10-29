@@ -4,24 +4,23 @@ namespace PandaBolt\BoltBrowser\Response;
 
 class BoltResponse
 {
-	protected 
-		$_raw_response   = null,
-		$_meta           = null,
-		$_body           = null,
+	protected
+    $_raw_response   = null,
+    $_meta           = null,
+    $_body           = null,
     $_status_code    = null,
-		$_header         = null,  
+    $_header         = null,  
     $_formatted_data = null,
     $_all_cookies    = array()
   ;
 
+  public function __construct($raw_response, $meta)
+  {
+    $this->_raw_response = $raw_response;
+    $this->_meta         = $meta;
 
-	public function __construct($raw_response, $meta)
-	{
-		$this->_raw_response = $raw_response;
-		$this->_meta         = $meta;
-
-		$this->_init();
-	}
+    $this->_init();
+  }
 
   public function loadCookies(array $cookies)
   {
@@ -54,11 +53,10 @@ class BoltResponse
     return $this->_formatted_data;
   }
 
-
-	protected function _init()
-	{
-		$header  = trim(substr($this->_raw_response, 0, $this->_meta['header_size']));
-		$this->_body  = $this->_formatted_data  = substr($this->_raw_response, $this->_meta['header_size']);
-		$this->_header = http_parse_headers($header);
-	}
+  protected function _init()
+  {
+    $header  = trim(substr($this->_raw_response, 0, $this->_meta['header_size']));
+    $this->_body  = $this->_formatted_data  = substr($this->_raw_response, $this->_meta['header_size']);
+    $this->_header = http_parse_headers($header);
+  }
 }

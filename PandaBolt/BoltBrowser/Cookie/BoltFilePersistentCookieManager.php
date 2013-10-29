@@ -71,8 +71,4 @@ class BoltFilePersistentCookieManager
     
     $this->_cookie_string = null;
   }
-
-
-
-
 }
