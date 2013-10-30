@@ -1,5 +1,7 @@
 <?php 
-
+/**
+ * Class to convert JSONP response body to array
+ */
 namespace PandaBolt\BoltBrowser\Response;
 
 use PandaBolt\BoltBrowser\Response\BoltResponse;

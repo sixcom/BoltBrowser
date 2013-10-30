@@ -1,4 +1,5 @@
 <?php
+//Demo only
 require_once('BoltBrowser.class.php');
 
 $browser = new BoltBrowser('http://www.google.com');

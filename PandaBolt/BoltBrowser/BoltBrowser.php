@@ -1,4 +1,7 @@
 <?php 
+/**
+ * Core class for handling all browser behavior 
+ */
 
 namespace PandaBolt\BoltBrowser;
 
@@ -8,13 +11,20 @@ use PandaBolt\BoltBrowser\Cookie\BoltFilePersistentCookieManager;
 
 class BoltBrowser
 {
+  /**
+   * vars
+   */
 	protected 
-    $_cookie_file_name = null,
-    $_cookie_manager   = null,
-		$_host             = null,
-		$_ch               = null,
-    $_response_class   = 'PandaBolt\BoltBrowser\Response\BoltResponse';
+    $_cookie_file_name = null, //File path to store the cookies
+    $_cookie_manager   = null, //Cookie manger object
+		$_host             = null, //Host name for the request url
+		$_ch               = null, //Curl handler
+    $_response_class   = 'PandaBolt\BoltBrowser\Response\BoltResponse'; //Default response class
 
+  /**
+   * Default curl parameters
+   * @var array
+   */
 	protected $_curl_options = array(
 		//CURLOPT_VERBOSE        => 1,
 		CURLOPT_HEADER         => 1,
@@ -22,14 +32,25 @@ class BoltBrowser
 		CURLOPT_USERAGENT      => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.152 Safari/537.22',
 	);
 
+  /**
+   * Constructor
+   * 
+   * @param string $host             
+   * @param string $cookie_file_name
+   */
 	public function __construct($host, $cookie_file_name = null)
 	{
-		$this->_host = $host;
+		$this->_host             = $host;
     $this->_cookie_file_name = $cookie_file_name;
-		$this->_ch   = curl_init();
+		$this->_ch               = curl_init();
 		curl_setopt_array($this->_ch, $this->_curl_options);
 	}
 
+  /**
+   * Get cookie file name
+   * 
+   * @return string
+   */
   public function getCookieFileName()
   {
     if (!$this->_cookie_file_name) {
@@ -39,38 +60,69 @@ class BoltBrowser
     return $this->_cookie_file_name;
   }
 
+  /**
+   * Get host name
+   * 
+   * @return string
+   */
   public function getHostName()
   {
     return parse_url($this->_host, PHP_URL_HOST);
   }
 
+  /**
+   * Register the cookie manager class
+   * @param  string $cookie_manager_class_name 
+   */
   public function registerCookieManagerClass($cookie_manager_class_name) 
   {
     $this->_cookie_manager = new $cookie_manager_class_name($this->getCookieFileName());
   }
 
+  /**
+   * Register response class
+   * @param  string $response_class_name                  
+   */
   public function registerResponseClass($response_class_name) 
   {
     $this->_response_class = $response_class_name;
   }
 
+  /**
+   * Set options for CURL
+   * @param array $opts 
+   */
   public function setOptions(array $opts) 
   {
     curl_setopt_array($this->_ch, $opts);
   }
 
-
+  /**
+   * Set cookies
+   * @param string $cookie
+   */
 	public function setCookie($cookie)
 	{
 		curl_setopt($this->_ch, CURLOPT_COOKIE, $cookie);
 	}
 
+  /**
+   * Make a get request
+   * @param  string $url
+   * @return Object -- registered response class object
+   */
 	public function get($url)
 	{
 		return $this->doRequest($url);
 	}
 
 
+  /**
+   * Make a post request
+   * @param  string $url
+   * @param  array  $data
+   * @return Object -- registered response class object
+   */
 	public function post($url, array $data)
 	{
 		curl_setopt($this->_ch, CURLOPT_POST, 1);
@@ -79,6 +131,11 @@ class BoltBrowser
     return $this->doRequest($url);
 	}
 
+  /**
+   * Download the content to a given file path
+   * @param  string $url       
+   * @param  string $file_path
+   */
   public function download($url, $file_path)
   {
     set_time_limit(0);
@@ -91,15 +148,18 @@ class BoltBrowser
       CURLOPT_HEADER         => 0,
     ));
  
-    return $this->doRequest($url);
+    $this->doRequest($url);
 
     fclose($fp);
   }
 
-
+  /**
+   * Make a http request
+   * @param  string $url 
+   * @return
+   */
 	protected function doRequest($url)
 	{
-
     if (
       $this->_cookie_manager
       && ($cookie_string = $this->_cookie_manager->getCookieString())

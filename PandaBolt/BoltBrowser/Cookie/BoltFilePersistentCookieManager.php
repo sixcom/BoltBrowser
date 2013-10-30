@@ -1,15 +1,25 @@
 <?php
-
+/**
+ * Cookie manager class for handling the cookie storage and retrieval
+ */
 namespace PandaBolt\BoltBrowser\Cookie;
 
 class BoltFilePersistentCookieManager
 {
+  /*
+   * vars
+   */
   protected 
-    $_host            = null,
-    $_file_dir        = null,
-    $_file_path       = null,
-    $_cookie_string   = null;
+    $_host            = null, //Host name
+    $_file_dir        = null, //File directory path
+    $_file_path       = null, //Full file path
+    $_cookie_string   = null; //Cookie content
 
+  /**
+   * Constructor
+   * @param string $host     
+   * @param string $file_dir
+   */
   public function __construct($host, $file_dir = '/tmp/')
   {
     $this->_host           = $host;
@@ -17,6 +27,10 @@ class BoltFilePersistentCookieManager
     $this->_file_path      = '/tmp/' . 'BPCM-'  . $host;
   }
 
+  /**
+   * Convert cookie string to an array
+   * @return array
+   */
   public function getCookieArray()
   {
     $cookie_string = $this->getCookieString();
@@ -28,6 +42,10 @@ class BoltFilePersistentCookieManager
 
   }
 
+  /**
+   * Get cookie string
+   * @return string
+   */
   public function getCookieString()
   {
     if (is_null($this->_cookie_string)) {
@@ -46,6 +64,10 @@ class BoltFilePersistentCookieManager
     return $this->_cookie_string;
   }
 
+  /**
+   * Set cookie string
+   * @param array $new_cookies_raw 
+   */
   public function setCookieString(array $new_cookies_raw)
   {
     if (empty($new_cookies_raw)) {
